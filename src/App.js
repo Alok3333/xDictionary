@@ -73,18 +73,20 @@ function App() {
           <button onClick={handleClickSearch}>Search</button>
         </form>
       </div>
-      <div>
-        <p>
-          <b>Defination:</b>
-        </p>
+      <div data-testid="definition-section">
+        <h3>Definition:</h3>
         {wordPre ? (
           showDictionaryText.map((item) => (
             <div key={item.word}>
-              <p>{item.meaning}</p>
+              <p data-testid="definition-text">
+                <strong>{item.word}:</strong> {item.meaning}
+              </p>
             </div>
           ))
         ) : (
-          <p>{err}</p>
+          <p data-testid="error-message">
+            {err ? err : "Please search for a word."}
+          </p>
         )}
       </div>
     </div>
