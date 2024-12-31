@@ -1,2 +1,2 @@
-# xTable
-X-Table
+# xDictionay
+X-Dictionay
