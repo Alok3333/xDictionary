@@ -18,26 +18,51 @@ function App() {
   const [wordPre, setWordPre] = useState(false);
   const [err, setErr] = useState("");
 
+  // const handleClickSearch = (e) => {
+  //   e.preventDefault();
+
+  //   if (!searchTxt) {
+  //     // If the search input is empty, display an error message
+  //     setErr("Please enter a word to search.");
+  //     setWordPre(false);
+  //     return;
+  //   }
+
+  //   const filteredState = dictionaryData.filter(
+  //     (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
+  //   );
+
+  //   if (filteredState.length > 0) {
+  //     setShowDictionaryText(filteredState);
+  //     setWordPre(true);
+  //     setErr(""); // Clear any previous error
+  //   } else {
+  //     setErr("Word not found in the dictionary.");
+  //     setWordPre(false);
+  //   }
+  // };
+
   const handleClickSearch = (e) => {
     e.preventDefault();
 
     if (!searchTxt) {
-      // If the search input is empty, display an error message
       setErr("Please enter a word to search.");
+      console.log("Error set to: Please enter a word to search."); // Debugging
       setWordPre(false);
       return;
     }
 
-    const filteredState = dictionaryData.filter(
+    const filterState = dictionaryState.filter(
       (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
     );
 
-    if (filteredState.length > 0) {
-      setShowDictionaryText(filteredState);
+    if (filterState.length > 0) {
+      setShowDictionaryText(filterState);
       setWordPre(true);
-      setErr(""); // Clear any previous error
+      setErr(""); // Clear the error if a word is found
     } else {
       setErr("Word not found in the dictionary.");
+      console.log("Error set to: Word not found in the dictionary."); // Debugging
       setWordPre(false);
     }
   };
@@ -69,7 +94,7 @@ function App() {
             </div>
           ))
         ) : (
-          <p>{err || "Please search for a word."}</p> // Display the error message or a default message
+          <p>{err || "Please search for a word."}</p>
         )}
       </div>
     </div>
