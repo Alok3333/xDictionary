@@ -18,40 +18,24 @@ function App() {
   const [wordPre, setWordPre] = useState(false);
   const [err, setErr] = useState("");
 
-  // const handleClickSearch = (e) => {
-  //   e.preventDefault();
-
-  //   let filterState = dictionaryState.filter(
-  //     (w) => w.word.toLocaleLowerCase() === searchTxt.toLocaleLowerCase()
-  //   );
-  //   // console.log(filterState, "here");
-  //   if (filterState.length > 0) {
-  //     setShowDictionaryText(filterState);
-  //     setWordPre(true);
-  //   } else {
-  //     setErr("Word not found in the dictionary.");
-  //     setWordPre(false);
-  //   }
-  // };
-
   const handleClickSearch = (e) => {
     e.preventDefault();
 
-    // Check if the search text is empty
     if (!searchTxt) {
-      setErr("Please enter a word to search."); // This is a different error message
+      // If the search input is empty, display an error message
+      setErr("Please enter a word to search.");
       setWordPre(false);
       return;
     }
 
-    let filterState = dictionaryData.filter(
-      (w) => w.word.toLocaleLowerCase() === searchTxt.toLocaleLowerCase()
+    const filteredState = dictionaryData.filter(
+      (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
     );
 
-    if (filterState.length > 0) {
-      setShowDictionaryText(filterState);
+    if (filteredState.length > 0) {
+      setShowDictionaryText(filteredState);
       setWordPre(true);
-      setErr(""); // Clear error if word is found
+      setErr(""); // Clear any previous error
     } else {
       setErr("Word not found in the dictionary.");
       setWordPre(false);
@@ -85,7 +69,7 @@ function App() {
             </div>
           ))
         ) : (
-          <p>{err || "Please search for a word."}</p> // Show error or default message if no word found
+          <p>{err || "Please search for a word."}</p> // Display the error message or a default message
         )}
       </div>
     </div>
