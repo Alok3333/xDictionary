@@ -1,74 +1,72 @@
 import { useState } from "react";
 import "./App.css";
 
-const tableData = [
-  { date: "2022-09-01", views: 100, article: "Article 1" },
-
-  { date: "2023-09-01", views: 100, article: "Article 1" },
-
-  { date: "2023-09-02", views: 150, article: "Article 2" },
-
-  { date: "2023-09-02", views: 120, article: "Article 3" },
-
-  { date: "2020-09-03", views: 200, article: "Article 4" },
+const dictionaryData = [
+  {
+    word: "React",
+    meaning: "A JavaScript library for building user interfaces.",
+  },
+  { word: "Component", meaning: "A reusable building block in React." },
+  { word: "State", meaning: "An object that stores data for a component." },
 ];
 
 function App() {
-  // State to store the table data
-  const [data, setData] = useState(tableData);
+  const [searchTxt, setSearchTxt] = useState("");
+  const [showDictionaryText, setShowDictionaryText] = useState([]);
+  const [wordPre, setWordPre] = useState(false);
+  const [err, setErr] = useState("");
 
-  // Function to sort by date and views
-  const sortByDate = () => {
-    const sortedData = [...data].sort((a, b) => {
-      if (new Date(b.date) !== new Date(a.date)) {
-        return new Date(b.date) - new Date(a.date);
-      }
-      // If dates are the same, compare by views
-      return b.views - a.views;
-    });
-    // console.log(sortedData, "sort data");
-    setData(sortedData);
-  };
+  const handleClickSearch = (e) => {
+    e.preventDefault();
 
-  // Function to sort by views and date
-  const sortByViews = () => {
-    const sortedData = [...data].sort((a, b) => {
-      if (b.views !== a.views) {
-        return b.views - a.views;
-      }
-      // If views are same, compare by date
-      return new Date(b.date) - new Date(a.date);
-    });
-    // console.log(sortedData, "sort data")
-    setData(sortedData);
+    if (!searchTxt) {
+      // If the search input is empty, display an error message
+      setErr("Word not found in the dictionary.");
+      setWordPre(false);
+      return;
+    }
+
+    const filteredState = dictionaryData.filter(
+      (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
+    );
+
+    if (filteredState.length > 0) {
+      setShowDictionaryText(filteredState);
+      setWordPre(true);
+      setErr(""); // Clear any previous error
+    } else {
+      setErr("Word not found in the dictionary.");
+      setWordPre(false);
+    }
   };
 
   return (
     <div className="App">
-      <h1>Date and Views Table</h1>
+      <h1>Dictionary App</h1>
       <div>
-        <button onClick={sortByDate}>Sort by Date</button>
-        <button onClick={sortByViews}>Sort by Views</button>
+        <form>
+          <input
+            type="text"
+            value={searchTxt}
+            placeholder="Search for a word..."
+            onChange={(e) => setSearchTxt(e.target.value)}
+          />
+          <button onClick={handleClickSearch}>Search</button>
+        </form>
       </div>
       <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Views</th>
-              <th>Article</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, index) => (
-              <tr key={index}>
-                <td>{row.date}</td>
-                <td>{row.views}</td>
-                <td>{row.article}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <h3>Definition:</h3>
+        {wordPre ? (
+          showDictionaryText.map((item) => (
+            <div key={item.word}>
+              <p>
+                <strong>{item.word}:</strong> {item.meaning}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>{err || "Please search for a word."}</p>
+        )}
       </div>
     </div>
   );
