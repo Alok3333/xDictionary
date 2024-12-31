@@ -23,7 +23,7 @@ function App() {
 
     if (!searchTxt) {
       // If the search input is empty, display an error message
-      setErr("Please enter a word to search.");
+      setErr("Word not found in the dictionary.");
       setWordPre(false);
       return;
     }
