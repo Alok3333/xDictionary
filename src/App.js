@@ -15,14 +15,24 @@ const dictionaryState = [
 function App() {
   const [searchTxt, setSearchTxt] = useState("");
   const [showDictionaryText, setShowDictionaryText] = useState([]);
+  const [wordPre, setWordPre] = useState(false);
+  const [err, setErr] = useState("");
 
   const handleClickSearch = (e) => {
     e.preventDefault();
 
-    let filterState = dictionaryState.filter((w) => w.word.toLocaleLowerCase() === searchTxt.toLocaleLowerCase());
+    let filterState = dictionaryState.filter(
+      (w) => w.word.toLocaleLowerCase() === searchTxt.toLocaleLowerCase()
+    );
     // console.log(filterState, "here");
-    setShowDictionaryText(filterState);
-  }
+    if (filterState.length > 0) {
+      setShowDictionaryText(filterState);
+      setWordPre(true);
+    } else {
+      setErr("Word not found in the dictionary.");
+      setWordPre(false);
+    }
+  };
 
   return (
     <div className="App">
@@ -31,7 +41,12 @@ function App() {
       </div>
       <div>
         <form>
-          <input type="text" value={searchTxt} placeholder="Search for a word..." onChange={(e) => setSearchTxt(e.target.value)}/>
+          <input
+            type="text"
+            value={searchTxt}
+            placeholder="Search for a word..."
+            onChange={(e) => setSearchTxt(e.target.value)}
+          />
           <button onClick={handleClickSearch}>Search</button>
         </form>
       </div>
@@ -39,9 +54,12 @@ function App() {
         <p>
           <b>Defination:</b>
         </p>
-        {showDictionaryText.map((item) => (
-          <p key={item.word}>{item.meaning}</p>
-        ))}
+        {wordPre &&
+          showDictionaryText.map((item) => (
+            <p key={item.word}>{item.meaning}</p>
+          ))}
+
+        {!wordPre && <p>{err}</p>}
       </div>
     </div>
   );
