@@ -14,12 +14,41 @@ const tableData = [
 ];
 
 function App() {
+  // State to store the table data
+  const [data, setData] = useState(tableData);
+
+  // Function to sort by date and views
+  const sortByDate = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (new Date(b.date) !== new Date(a.date)) {
+        return new Date(b.date) - new Date(a.date);
+      }
+      // If dates are the same, compare by views
+      return b.views - a.views;
+    });
+    // console.log(sortedData, "sort data");
+    setData(sortedData);
+  };
+
+  // Function to sort by views and date
+  const sortByViews = () => {
+    const sortedData = [...data].sort((a, b) => {
+      if (b.views !== a.views) {
+        return b.views - a.views;
+      }
+      // If views are same, compare by date
+      return new Date(b.date) - new Date(a.date);
+    });
+    // console.log(sortedData, "sort data")
+    setData(sortedData);
+  };
+
   return (
     <div className="App">
       <h1>Date and Views Table</h1>
       <div>
-        <button>Sort by Date</button>
-        <button>Sort by Views</button>
+        <button onClick={sortByDate}>Sort by Date</button>
+        <button onClick={sortByViews}>Sort by Views</button>
       </div>
       <div>
         <table>
@@ -31,26 +60,13 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>2022-09-01</td>
-              <td>100</td>
-              <td>Article 1</td>
-            </tr>
-            <tr>
-              <td>2022-09-01</td>
-              <td>100</td>
-              <td>Article 1</td>
-            </tr>
-            <tr>
-              <td>2022-09-01</td>
-              <td>100</td>
-              <td>Article 1</td>
-            </tr>
-            <tr>
-              <td>2022-09-01</td>
-              <td>100</td>
-              <td>Article 1</td>
-            </tr>
+            {data.map((row, index) => (
+              <tr key={index}>
+                <td>{row.date}</td>
+                <td>{row.views}</td>
+                <td>{row.article}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
