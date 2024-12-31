@@ -1,76 +1,58 @@
 import { useState } from "react";
 import "./App.css";
 
-const dictionaryData = [
-  {
-    word: "React",
-    meaning: "A JavaScript library for building user interfaces.",
-  },
+const tableData = [
+  { date: "2022-09-01", views: 100, article: "Article 1" },
 
-  { word: "Component", meaning: "A reusable building block in React." },
+  { date: "2023-09-01", views: 100, article: "Article 1" },
 
-  { word: "State", meaning: "An object that stores data for a component." },
+  { date: "2023-09-02", views: 150, article: "Article 2" },
+
+  { date: "2023-09-02", views: 120, article: "Article 3" },
+
+  { date: "2020-09-03", views: 200, article: "Article 4" },
 ];
 
 function App() {
-  const [searchTxt, setSearchTxt] = useState("");
-  const [showDictionaryText, setShowDictionaryText] = useState([]);
-  const [wordPre, setWordPre] = useState(false);
-  const [err, setErr] = useState("");
-
-  const handleClickSearch = (e) => {
-    e.preventDefault();
-
-    if (!searchTxt) {
-      // If the search input is empty, display an error message
-      setErr("Word not found in the dictionary.");
-      setWordPre(false);
-      return;
-    }
-
-    const filteredState = dictionaryData.filter(
-      (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
-    );
-
-    if (filteredState.length > 0) {
-      setShowDictionaryText(filteredState);
-      setWordPre(true);
-      setErr(""); // Clear any previous error
-    } else {
-      setErr("Word not found in the dictionary.");
-      setWordPre(false);
-    }
-  };
-
   return (
     <div className="App">
+      <h1>Date and Views Table</h1>
       <div>
-        <h1>Dictionary App</h1>
+        <button>Sort by Date</button>
+        <button>Sort by Views</button>
       </div>
       <div>
-        <form>
-          <input
-            type="text"
-            value={searchTxt}
-            placeholder="Search for a word..."
-            onChange={(e) => setSearchTxt(e.target.value)}
-          />
-          <button onClick={handleClickSearch}>Search</button>
-        </form>
-      </div>
-      <div>
-        <h3>Definition:</h3>
-        {wordPre ? (
-          showDictionaryText.map((item) => (
-            <div key={item.word}>
-              <p>
-                <strong>{item.word}:</strong> {item.meaning}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>{err || "Please search for a word."}</p>
-        )}
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Views</th>
+              <th>Article</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2022-09-01</td>
+              <td>100</td>
+              <td>Article 1</td>
+            </tr>
+            <tr>
+              <td>2022-09-01</td>
+              <td>100</td>
+              <td>Article 1</td>
+            </tr>
+            <tr>
+              <td>2022-09-01</td>
+              <td>100</td>
+              <td>Article 1</td>
+            </tr>
+            <tr>
+              <td>2022-09-01</td>
+              <td>100</td>
+              <td>Article 1</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
