@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-const dictionaryState = [
+const dictionaryData = [
   {
     word: "React",
     meaning: "A JavaScript library for building user interfaces.",
@@ -37,20 +37,21 @@ function App() {
   const handleClickSearch = (e) => {
     e.preventDefault();
 
+    // Check if the search text is empty
     if (!searchTxt) {
-      setErr("Please enter a word to search.");
+      setErr("Please enter a word to search."); // This is a different error message
       setWordPre(false);
       return;
     }
 
-    let filterState = dictionaryState.filter(
+    let filterState = dictionaryData.filter(
       (w) => w.word.toLocaleLowerCase() === searchTxt.toLocaleLowerCase()
     );
 
     if (filterState.length > 0) {
       setShowDictionaryText(filterState);
       setWordPre(true);
-      setErr(""); // Clear error if found
+      setErr(""); // Clear error if word is found
     } else {
       setErr("Word not found in the dictionary.");
       setWordPre(false);
@@ -73,20 +74,18 @@ function App() {
           <button onClick={handleClickSearch}>Search</button>
         </form>
       </div>
-      <div data-testid="definition-section">
+      <div>
         <h3>Definition:</h3>
         {wordPre ? (
           showDictionaryText.map((item) => (
             <div key={item.word}>
-              <p data-testid="definition-text">
+              <p>
                 <strong>{item.word}:</strong> {item.meaning}
               </p>
             </div>
           ))
         ) : (
-          <p data-testid="error-message">
-            {err ? err : "Please search for a word."}
-          </p>
+          <p>{err || "Please search for a word."}</p> // Show error or default message if no word found
         )}
       </div>
     </div>
