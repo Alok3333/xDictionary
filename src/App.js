@@ -52,7 +52,7 @@ function App() {
       return;
     }
 
-    const filterState = dictionaryState.filter(
+    const filterState = dictionaryData.filter(
       (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
     );
 
