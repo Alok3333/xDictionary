@@ -18,51 +18,26 @@ function App() {
   const [wordPre, setWordPre] = useState(false);
   const [err, setErr] = useState("");
 
-  // const handleClickSearch = (e) => {
-  //   e.preventDefault();
-
-  //   if (!searchTxt) {
-  //     // If the search input is empty, display an error message
-  //     setErr("Please enter a word to search.");
-  //     setWordPre(false);
-  //     return;
-  //   }
-
-  //   const filteredState = dictionaryData.filter(
-  //     (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
-  //   );
-
-  //   if (filteredState.length > 0) {
-  //     setShowDictionaryText(filteredState);
-  //     setWordPre(true);
-  //     setErr(""); // Clear any previous error
-  //   } else {
-  //     setErr("Word not found in the dictionary.");
-  //     setWordPre(false);
-  //   }
-  // };
-
   const handleClickSearch = (e) => {
     e.preventDefault();
 
     if (!searchTxt) {
+      // If the search input is empty, display an error message
       setErr("Please enter a word to search.");
-      console.log("Error set to: Please enter a word to search."); // Debugging
       setWordPre(false);
       return;
     }
 
-    const filterState = dictionaryData.filter(
+    const filteredState = dictionaryData.filter(
       (w) => w.word.toLowerCase() === searchTxt.toLowerCase()
     );
 
-    if (filterState.length > 0) {
-      setShowDictionaryText(filterState);
+    if (filteredState.length > 0) {
+      setShowDictionaryText(filteredState);
       setWordPre(true);
-      setErr(""); // Clear the error if a word is found
+      setErr(""); // Clear any previous error
     } else {
       setErr("Word not found in the dictionary.");
-      console.log("Error set to: Word not found in the dictionary."); // Debugging
       setWordPre(false);
     }
   };
