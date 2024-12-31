@@ -18,16 +18,39 @@ function App() {
   const [wordPre, setWordPre] = useState(false);
   const [err, setErr] = useState("");
 
+  // const handleClickSearch = (e) => {
+  //   e.preventDefault();
+
+  //   let filterState = dictionaryState.filter(
+  //     (w) => w.word.toLocaleLowerCase() === searchTxt.toLocaleLowerCase()
+  //   );
+  //   // console.log(filterState, "here");
+  //   if (filterState.length > 0) {
+  //     setShowDictionaryText(filterState);
+  //     setWordPre(true);
+  //   } else {
+  //     setErr("Word not found in the dictionary.");
+  //     setWordPre(false);
+  //   }
+  // };
+
   const handleClickSearch = (e) => {
     e.preventDefault();
+
+    if (!searchTxt) {
+      setErr("Please enter a word to search.");
+      setWordPre(false);
+      return;
+    }
 
     let filterState = dictionaryState.filter(
       (w) => w.word.toLocaleLowerCase() === searchTxt.toLocaleLowerCase()
     );
-    // console.log(filterState, "here");
+
     if (filterState.length > 0) {
       setShowDictionaryText(filterState);
       setWordPre(true);
+      setErr(""); // Clear error if found
     } else {
       setErr("Word not found in the dictionary.");
       setWordPre(false);
@@ -54,12 +77,15 @@ function App() {
         <p>
           <b>Defination:</b>
         </p>
-        {wordPre &&
+        {wordPre ? (
           showDictionaryText.map((item) => (
-            <p key={item.word}>{item.meaning}</p>
-          ))}
-
-        {!wordPre && <p>{err}</p>}
+            <div key={item.word}>
+              <p>{item.meaning}</p>
+            </div>
+          ))
+        ) : (
+          <p>{err}</p>
+        )}
       </div>
     </div>
   );
